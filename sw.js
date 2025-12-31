@@ -1,10 +1,10 @@
 
 const CACHE_NAME = 'swiott-parking-v1';
 const ASSETS_TO_CACHE = [
-  './',
-  './index.html',
-  './manifest.json',
-  './logo.png'
+  '/',
+  '/index.html',
+  '/manifest.json',
+  '/logo.png'
 ];
 
 self.addEventListener('install', (event) => {

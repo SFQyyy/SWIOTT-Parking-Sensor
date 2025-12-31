@@ -97,7 +97,6 @@ const App: React.FC = () => {
     };
   }, [handleLine, addLog]);
 
-  // 当切换到设置页面且为 NB-IoT 模式时，自动读取参数
   useEffect(() => {
     if (status === 'connected' && activeTab === 'settings' && settings.commType === 'NB-IoT') {
       const queryId = `${activeTab}-${settings.commType}`;
@@ -105,7 +104,7 @@ const App: React.FC = () => {
         lastQueriedNBMode.current = queryId;
         const fetchConfig = async () => {
           await sendCommand('AT+NBAPN?');
-          await sleep(500); // 间隔至少 300ms
+          await sleep(500); 
           await sendCommand('AT+NBMQTT?');
         };
         fetchConfig();
@@ -150,7 +149,12 @@ const App: React.FC = () => {
       await sendCommand('AT+SWQUERY?');
       await sleep(500);
       await sendCommand('AT+SWRDSTATUS?');
-    } catch (err) {
+    } catch (err: any) {
+      // 如果是用户取消了选择，我们静默处理
+      if (err.name === 'NotFoundError' || err.message.includes('cancelled')) {
+        setStatus('disconnected');
+        return;
+      }
       console.error(err);
       setStatus('disconnected');
       addLog('receive', 'BLE Connection Failed');
@@ -171,14 +175,8 @@ const App: React.FC = () => {
 
   const handleSaveConfig = async () => {
     if (settings.commType === 'NB-IoT') {
-      // 1. 发送 AT+NBAPN
       await sendCommand(`AT+NBAPN=${settings.nbApn}`);
-      
-      // 2. 间隔至少 500ms
       await sleep(500);
-      
-      // 3. 发送 AT+NBMQTT
-      // 参数顺序: <host>,<port>,<username>,<password>,<clean>,<keepalive>
       const mqttParams = [
         settings.nbMqttHost,
         settings.nbMqttPort,
@@ -188,10 +186,8 @@ const App: React.FC = () => {
         settings.nbMqttKeepAlive
       ].join(',');
       await sendCommand(`AT+NBMQTT=${mqttParams}`);
-      
       addLog('send', 'NB-IoT Configuration synced successfully.');
     } else {
-      // LoRaWAN 配置路径
       await sendCommand(`AT+DEVEUI=${settings.deveui}`);
       await sleep(500);
       await sendCommand(`AT+APPKEY=${settings.appskey}`);
@@ -199,7 +195,6 @@ const App: React.FC = () => {
       await sendCommand(`AT+REGION=${settings.region}`);
       addLog('send', 'LoRaWAN Configuration synced successfully.');
     }
-    // 已移除 AT+SAVE 指令，因为该设备文档中并未提供此指令
   };
 
   return (

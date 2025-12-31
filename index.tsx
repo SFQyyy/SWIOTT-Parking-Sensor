@@ -16,7 +16,6 @@ root.render(
 // Basic Service Worker registration for PWA
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    // 改为相对路径 './sw.js'
-    navigator.serviceWorker.register('./sw.js').catch(err => console.log('SW registration failed: ', err));
+    navigator.serviceWorker.register('/sw.js').catch(err => console.log('SW registration failed: ', err));
   });
 }
