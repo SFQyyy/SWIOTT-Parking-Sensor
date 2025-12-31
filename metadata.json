@@ -1,0 +1,7 @@
+{
+  "name": "SWIOTT Parking Tool",
+  "description": "Professional BLE tool for managing and configuring SWIOTT parking sensors.",
+  "requestFramePermissions": [
+    "bluetooth"
+  ]
+}

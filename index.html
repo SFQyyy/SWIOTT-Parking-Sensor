@@ -1,0 +1,56 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Parking Sensor Monitor</title>
+  <meta name="theme-color" content="#0b101a">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="manifest" href="./manifest.json">
+  <link rel="icon" href="logo.png">
+  <style>
+    :root {
+      --bg-main: #0b101a;
+      --card-bg: #161d2f;
+      --accent: #2563eb;
+    }
+    body {
+      overscroll-behavior-y: contain;
+      -webkit-tap-highlight-color: transparent;
+      background-color: var(--bg-main);
+      color: #f8fafc;
+      font-family: 'Inter', -apple-system, system-ui, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    .dark-card {
+      background: var(--card-bg);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 12px; /* 调小圆角 */
+    }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    input:focus { border-color: var(--accent); }
+    
+    @keyframes pulse-soft {
+      0%, 100% { transform: scale(1); opacity: 0.8; }
+      50% { transform: scale(1.05); opacity: 1; }
+    }
+    .pulse-soft { animation: pulse-soft 3s ease-in-out infinite; }
+  </style>
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@^19.2.3",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "lucide-react": "https://esm.sh/lucide-react@^0.562.0"
+  }
+}
+</script>
+</head>
+<body class="antialiased text-slate-200">
+  <div id="root"></div>
+</body>
+</html>
